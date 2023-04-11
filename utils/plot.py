@@ -2,6 +2,7 @@ from matplotlib import pyplot as plt
 from matplotlib.ticker import MaxNLocator
 from sklearn.metrics import confusion_matrix, r2_score
 import pandas as pd
+import geopandas as gpd
 from typing import List
 
 
@@ -143,4 +144,19 @@ def draw_multi_confusion_matirx(ref:pd.DataFrame, pred:pd.DataFrame, model:str) 
     title = f'{model} multi confusion matrix'
     plt.suptitle(title)
     plt.savefig('../outputs/pics/multi_label/'+ title +'.jpg')
+    plt.clf()
+
+
+def draw_map(gdf:gpd.GeoDataFrame, area:str, model:str) -> None:
+    """Draw validation map to visulise classification result"""
+    # Create a figure and axis
+    fig, ax = plt.subplots(figsize=(8, 6))
+    # Plot all the polygons
+    gdf.plot(ax=ax, column='name', legend=True, categorical = True, legend_kwds={'loc': 'center left', 'bbox_to_anchor':(1,0.5)})
+    # Set the title and axis labels
+    title = f'Validation Map of {model} for {area}'
+    ax.set_title(title)
+    ax.set_xlabel("Longitude")
+    ax.set_ylabel("Latitude")
+    plt.savefig(f'../outputs/pics/map/'+ title +'.jpg')
     plt.clf()

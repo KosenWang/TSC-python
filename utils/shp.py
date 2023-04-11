@@ -1,6 +1,6 @@
 # %%
 import geopandas as gpd
-import csv
+import utils.csv as csv
 
 
 # %%
@@ -25,7 +25,7 @@ def shuffle(gdf:gpd.GeoDataFrame) -> gpd.GeoDataFrame:
     'BAA_PKT_PA', 'BAA_PKT_FI', 'BAA_PKT_TA', 'BAA_PKT_DG', 'BAA_PKT_KI', 'BAA_PKT_LA', 'BAA_PKT_NB', 
     'BAA_PKT_LB', 'GD_AB', 'GD_BIS', 'FATID', 'FOKUS_ID', 'GEFUEGE', 'BEST_BEZ1', 'BEST_BEZ2', 'BEST_BEZ3', 
     'BESTTYP', 'BU_WLRT', 'LWET_TEXT', 'MASSNAHMEN', 'NHB_BEZ', 'ALT_HB', 'ALT_IT', 'BST_ART_ID', 'NWW_BHT', 
-    'NWW_KAT', 'SHAPE_STAr', 'SHAPE_STLe',]
+    'NWW_KAT', 'SHAPE_STAr', 'SHAPE_STLe']
     gdf.drop(columns=keys, inplace=True)
     # remove useless rows
     gdf = gdf.drop(gdf[gdf['BST1_BA_1'] == 0].index)

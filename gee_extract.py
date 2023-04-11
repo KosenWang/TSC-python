@@ -16,7 +16,7 @@ CLD_PRJ_DIST = 1.2
 BUFFER = 50
 
 # load shape
-fc = ee.FeatureCollection('users/dongshew96/bw_polygons_8main')
+fc = ee.FeatureCollection('users/dongshew96/wgs_validation_grid_20m')
 
 ### cloud masking part for Sentinel-2 (all adapted from Pia Labenski; be aware that this code is NOT PUBLIC
 ### (although mainly adpoted from GEE tutorial) -> do not share)
@@ -97,14 +97,14 @@ def get_date(img):
 
 # add delay to for-loop:
 DELAY = True
-STEPS = 3000
+STEPS = 1000
 DELAYTIME = 7200 # e.g. 32,400 seconds == 9 hours
 
 extracted = 0
 size = fc.size().getInfo()
 
-# for i in range(86000, 90000):
-for i in range(94000, size):
+# for i in range(0, 10):
+for i in range(5000, size):
     extracted = i + 1
     feature = ee.Feature(fc.toList(fc.size()).get(i))
     # info = fc.toList(fc.size()).get(i).getInfo()
@@ -129,9 +129,9 @@ for i in range(94000, size):
     print(f'saving polygon {i}')
     ee.batch.Export.table.toDrive(
         collection=data,
-        folder=f'bw_polygons_8main_cloud{CLOUD_FILTER}',
+        folder=f'validation_grid_20m_cloud{CLOUD_FILTER}',
         description=os.path.join('plot_' + str(i)),
-        selectors=['B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8', 'B8A', 'B11', 'B12', 'date', 'spacecraft_id','id'],
+        selectors=['B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8', 'B8A', 'B11', 'B12', 'date', 'spacecraft_id','fid'],
         fileFormat='CSV').start()
     # GEE can only handle 3000 tasks at once -> add sleep time to avoid overflow
     if DELAY:
