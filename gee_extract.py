@@ -104,7 +104,7 @@ extracted = 0
 size = fc.size().getInfo()
 
 # for i in range(0, 10):
-for i in range(5000, size):
+for i in range(23000, size):
     extracted = i + 1
     feature = ee.Feature(fc.toList(fc.size()).get(i))
     # info = fc.toList(fc.size()).get(i).getInfo()
@@ -131,7 +131,7 @@ for i in range(5000, size):
         collection=data,
         folder=f'validation_grid_20m_cloud{CLOUD_FILTER}',
         description=os.path.join('plot_' + str(i)),
-        selectors=['B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8', 'B8A', 'B11', 'B12', 'date', 'spacecraft_id','fid'],
+        selectors=['B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8', 'B8A', 'B11', 'B12', 'date', 'spacecraft_id','id'],
         fileFormat='CSV').start()
     # GEE can only handle 3000 tasks at once -> add sleep time to avoid overflow
     if DELAY:

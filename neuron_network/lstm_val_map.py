@@ -4,7 +4,6 @@ from torch import nn, Tensor
 import torch.utils.data as Data
 import os
 import sys
-from typing import Tuple
 import pandas as pd
 import geopandas as gpd
 sys.path.append('../')
@@ -68,7 +67,7 @@ def predict(dataloader:Data.DataLoader, model:nn.Module) -> pd.DataFrame:
             y_list += refs.tolist()
     cols = ['id', 'class']
     pred = csv.list_to_dataframe(y_list, cols, False)
-    csv.export(pred, f'../outputs/csv/map/{MODEL_NAME}_pred.csv', True)
+    csv.export(pred, f'../../outputs/csv/map/{MODEL_NAME}_pred.csv', True)
     return pred
 
 
@@ -112,6 +111,7 @@ if __name__ == '__main__':
     model = LSTMClassifier(num_bands, input_size, hidden_size, num_layers, num_classes, bidirectional).to(device)
     model.load_state_dict(torch.load(MODEL_PATH))
     # make prediction
+    print('start predicting')
     pred = predict(dataloader, model)
     gdf = shp.load_shp_file(SHP_PATH)
     # class mapping to shp

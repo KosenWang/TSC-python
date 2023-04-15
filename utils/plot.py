@@ -40,6 +40,7 @@ def draw_confusion_matrix(ref:pd.DataFrame, pred:pd.DataFrame, classes:List[str]
     # calculate confusion matrix
     matrix = confusion_matrix(ref, pred)
     # draw figure
+    fig = plt.figure(figsize=(10, 10))
     plt.imshow(matrix, interpolation='nearest', cmap=plt.cm.Blues)
     thresh = matrix.max() / 2.
     for i in range(len(matrix)):    
@@ -52,8 +53,8 @@ def draw_confusion_matrix(ref:pd.DataFrame, pred:pd.DataFrame, classes:List[str]
     title = f'{model} confusion matrix'
     plt.xticks(indices, classes, rotation=45)
     plt.yticks(indices, classes)
-    plt.ylabel('True label')
-    plt.xlabel('Predicted label')
+    plt.ylabel('Reference')
+    plt.xlabel('Prediction')
     plt.title(title)
     # save figure and clear
     plt.savefig('../outputs/pics/classification/'+ title +'.jpg')
@@ -150,9 +151,26 @@ def draw_multi_confusion_matirx(ref:pd.DataFrame, pred:pd.DataFrame, model:str) 
 def draw_map(gdf:gpd.GeoDataFrame, area:str, model:str) -> None:
     """Draw validation map to visulise classification result"""
     # Create a figure and axis
-    fig, ax = plt.subplots(figsize=(8, 6))
-    # Plot all the polygons
-    gdf.plot(ax=ax, column='name', legend=True, categorical = True, legend_kwds={'loc': 'center left', 'bbox_to_anchor':(1,0.5)})
+    fig, ax = plt.subplots(figsize=(9, 6))
+    # map class and color
+    color_map = {
+        'Spruce': '#1f77b4', 
+        'Sliver Fir': '#ff7f0e', 
+        'Douglas Fir': '#2ca02c', 
+        'Pine': '#d62728', 
+        'Oak': '#9467bd', 
+        'Red Oak': '#8c564b', 
+        'Beech': '#e377c2', 
+        'Sycamore': '#7f7f7f', 
+        'Others': '#bcbd22'}
+    # plotting
+    for name, group in gdf.groupby('name'):
+        color = color_map[name]
+        group.plot(ax=ax, color=color)
+    # set legend
+    legend_labels = list(color_map.keys())
+    handles = [plt.Line2D([], [], color=color_map[label], marker='o', linestyle='', label=label) for label in legend_labels]
+    ax.legend(handles=handles, labels=legend_labels, loc='center left', bbox_to_anchor=(1.0, 0.5))
     # Set the title and axis labels
     title = f'Validation Map of {model} for {area}'
     ax.set_title(title)
