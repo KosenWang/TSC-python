@@ -178,3 +178,28 @@ def draw_map(gdf:gpd.GeoDataFrame, area:str, model:str) -> None:
     ax.set_ylabel("Latitude")
     plt.savefig(f'../outputs/pics/map/'+ title +'.jpg')
     plt.clf()
+
+
+def draw_bar_chart(classes:List[str], counts:List[str], title:str) -> None:
+    """Draw bar chart to show sample count for each class"""
+    # plot
+    fig, ax = plt.subplots(figsize=(7, 7))
+    bar_width = 0.5
+    bar_positions = [i for i in range(len(classes))]
+    bars = ax.bar(bar_positions, counts, width=bar_width)
+    # x,y label and title
+    ax.set_xticks(bar_positions)
+    ax.set_xticklabels(classes, rotation=45)
+    ax.set_ylabel('Sample Count')
+    ax.set_title(f"{title} Sample Count for Each Class")
+    # show count value
+    for bar in bars:
+        height = bar.get_height()
+        ax.annotate('{}'.format(height),
+                    xy=(bar.get_x() + bar.get_width() / 2, height),
+                    xytext=(0, 3),
+                    textcoords='offset points',
+                    ha='center', va='bottom')
+    # save fig
+    plt.savefig('../outputs/pics/classification/'+ title +'.jpg')
+    plt.clf()
