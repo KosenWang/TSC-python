@@ -16,7 +16,7 @@ CLD_PRJ_DIST = 1.2
 BUFFER = 50
 
 # load shape
-fc = ee.FeatureCollection('users/dongshew96/wgs_validation_grid_20m')
+fc = ee.FeatureCollection('users/dongshew96/aoi_polygons')
 
 ### cloud masking part for Sentinel-2 (all adapted from Pia Labenski; be aware that this code is NOT PUBLIC
 ### (although mainly adpoted from GEE tutorial) -> do not share)
@@ -104,7 +104,7 @@ extracted = 0
 size = fc.size().getInfo()
 
 # for i in range(0, 10):
-for i in range(23000, size):
+for i in range(0, size):
     extracted = i + 1
     feature = ee.Feature(fc.toList(fc.size()).get(i))
     # info = fc.toList(fc.size()).get(i).getInfo()
@@ -129,7 +129,7 @@ for i in range(23000, size):
     print(f'saving polygon {i}')
     ee.batch.Export.table.toDrive(
         collection=data,
-        folder=f'validation_grid_20m_cloud{CLOUD_FILTER}',
+        folder=f'aoi_polygons_cloud{CLOUD_FILTER}',
         description=os.path.join('plot_' + str(i)),
         selectors=['B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8', 'B8A', 'B11', 'B12', 'date', 'spacecraft_id','id'],
         fileFormat='CSV').start()
