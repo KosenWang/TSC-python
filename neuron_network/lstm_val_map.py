@@ -67,7 +67,7 @@ def predict(dataloader:Data.DataLoader, model:nn.Module) -> pd.DataFrame:
             y_list += refs.tolist()
     cols = ['id', 'class']
     pred = csv.list_to_dataframe(y_list, cols, False)
-    csv.export(pred, f'../../outputs/csv/map/{MODEL_NAME}_pred.csv', True)
+    csv.export(pred, f'../../outputs/csv/map/{METHOD}/{MODEL_NAME}_pred.csv', True)
     return pred
 
 
@@ -75,7 +75,7 @@ def map_class(pred:pd.DataFrame, gdf:gpd.GeoDataFrame) -> gpd.GeoDataFrame:
     """map class info to shp file"""
     # gdf.rename(columns={'fid':'id'}, inplace=True)
     output = pd.merge(gdf, pred, on='id', how='inner')
-    class_name = {0:'Spruce', 1:'Sliver Fir', 2:'Douglas Fir', 3:'Pine', 
+    class_name = {0:'Spruce', 1:'Silver Fir', 2:'Douglas Fir', 3:'Pine', 
                   4:'Oak', 5:'Red Oak', 6:'Beech', 7:'Sycamore', 8:'Others'}
     output['name'] = output['class'].map(class_name)
     return output
