@@ -2,7 +2,7 @@
     "general hyperparameters": {
         "batch size": 512,
         "learning rate": 0.001,
-        "epoch": 200,
+        "epoch": 150,
         "seed": 24
     },
     "lstm hyperparameters": {
