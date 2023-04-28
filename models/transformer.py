@@ -51,66 +51,6 @@ class PositionalEncoding(nn.Module):
         return self.dropout(x)
 
 
-class TransformerRegression(nn.Module):
-    def __init__(self, num_bands:int, num_classes:int, d_model:int, nhead:int, num_layers:int, dim_feedforward:int) -> None:
-        super(TransformerRegression, self).__init__()
-        # encoder embedding
-        self.src_embd = nn.Linear(num_bands, d_model)
-        self.pos_encoder = PositionalEncoding(d_model)
-        # transformer model
-        encoder_layer = TransformerEncoderLayer(d_model, nhead, dim_feedforward)
-        encoder_norm = LayerNorm(d_model)
-        self.transformer_encoder = TransformerEncoder(encoder_layer, num_layers, encoder_norm)
-        # regression
-        self.fc = nn.Sequential(
-                    nn.Linear(d_model, 256),
-                    nn.ReLU(),
-                    nn.BatchNorm1d(256),
-                    nn.Dropout(0.3),
-                    nn.Linear(256, num_classes),
-                    nn.Softmax(dim=1)
-                )
-
-    def forward(self, src:Tensor) -> Tensor:
-        src = self.src_embd(src)
-        src = self.pos_encoder(src)
-        output:Tensor = self.transformer_encoder(src)
-        # output: [seq_len, batch_sz, d_model]
-        output = self.fc(output[-1, :, :])
-        # final shape: [batch_sz, num_classes]
-        return output
-
-
-class TransformerMultiLabel(nn.Module):
-    def __init__(self, num_bands:int, num_classes:int, d_model:int, nhead:int, num_layers:int, dim_feedforward:int) -> None:
-        super(TransformerMultiLabel, self).__init__()
-        # encoder embedding
-        self.src_embd = nn.Linear(num_bands, d_model)
-        self.pos_encoder = PositionalEncoding(d_model)
-        # transformer model
-        encoder_layer = TransformerEncoderLayer(d_model, nhead, dim_feedforward)
-        encoder_norm = LayerNorm(d_model)
-        self.transformer_encoder = TransformerEncoder(encoder_layer, num_layers, encoder_norm)
-        # regression
-        self.fc = nn.Sequential(
-                    nn.Linear(d_model, 256),
-                    nn.ReLU(),
-                    nn.BatchNorm1d(256),
-                    nn.Dropout(0.3),
-                    nn.Linear(256, num_classes),
-                    nn.Sigmoid()
-                )
-
-    def forward(self, src:Tensor) -> Tensor:
-        src = self.src_embd(src)
-        src = self.pos_encoder(src)
-        output:Tensor = self.transformer_encoder(src)
-        # output: [seq_len, batch_sz, d_model]
-        output = self.fc(output[-1, :, :])
-        # final shape: [batch_sz, num_classes]
-        return output
-
-
 class TransformerClassifier(nn.Module):
     def __init__(self, num_bands:int, num_classes:int, d_model:int, nhead:int, num_layers:int, dim_feedforward:int) -> None:
         super(TransformerClassifier, self).__init__()
@@ -127,8 +67,7 @@ class TransformerClassifier(nn.Module):
                     nn.ReLU(),
                     nn.BatchNorm1d(256),
                     nn.Dropout(0.3),
-                    nn.Linear(256, num_classes),
-                    nn.Softmax(dim=1)
+                    nn.Linear(256, num_classes)
                 )
 
     def forward(self, src:Tensor) -> Tensor:

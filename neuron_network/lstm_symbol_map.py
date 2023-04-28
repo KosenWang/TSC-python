@@ -61,6 +61,7 @@ def predict(dataloader:Data.DataLoader, model:nn.Module) -> pd.DataFrame:
             inputs:Tensor = inputs.to(device)
             outputs:Tensor = model(inputs)
             # transfer prediction to multi-label
+            outputs = sigmoid(outputs)
             predicted = torch.where(outputs >= 0.5, 1, 0)
             refs[:, 1:] = predicted
             # export as Dataframe
@@ -103,6 +104,7 @@ if __name__ == '__main__':
     # model
     model = LSTMClassifier(num_bands, input_size, hidden_size, num_layers, num_classes, bidirectional).to(device)
     model.load_state_dict(torch.load(MODEL_PATH))
+    sigmoid = nn.Sigmoid().to(device)
     # make prediction
     print('start predicting')
     pred = predict(dataloader, model)

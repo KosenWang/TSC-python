@@ -61,6 +61,7 @@ def predict(dataloader:Data.DataLoader, model:nn.Module) -> pd.DataFrame:
             inputs:Tensor = inputs.to(device)
             outputs:Tensor = model(inputs)
             # transfer prediction to class index
+            outputs = softmax(outputs)
             _, predicted = torch.max(outputs.data, 1)
             refs[:, 1] = predicted
             # export as Dataframe
@@ -107,6 +108,7 @@ if __name__ == '__main__':
     # model
     model = LSTMClassifier(num_bands, input_size, hidden_size, num_layers, num_classes, bidirectional).to(device)
     model.load_state_dict(torch.load(MODEL_PATH))
+    softmax = nn.Softmax(dim=1).to(device)
     # make prediction
     print('start predicting')
     pred = predict(dataloader, model)
