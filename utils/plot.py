@@ -267,3 +267,22 @@ def draw_bar_chart(classes:List[str], counts:List[str], title:str) -> None:
     # save fig
     plt.savefig('../outputs/pics/classification/'+ title +'.jpg')
     plt.clf()
+
+
+def draw_stacked_chart(num_positive:List[int], num_negative:List[int], labels:List[str]) -> None:
+    """Draw stacked bar chart to show sample count for each label"""
+    # plot
+    fig = plt.figure(figsize=(7, 7))
+    bar_width = 0.5
+    plt.bar(labels, num_positive, width=bar_width, label='Positive')
+    plt.bar(labels, num_negative, width=bar_width, bottom=num_positive, label='Negative')
+    # legend and label
+    bar_positions = [i for i in range(len(labels))]
+    plt.xticks(ticks=bar_positions, labels=labels, rotation=45)
+    plt.ylabel('Number of Samples')
+    title = 'Sample Count for Each Label'
+    plt.title(title)
+    plt.legend(loc='best')
+    # save fig
+    plt.savefig('../outputs/pics/multi_label/'+ title +'.jpg')
+    plt.clf()
