@@ -1,0 +1,4 @@
+index,Spruce,Silver Fir,Douglas Fir,Pine,Oak,Red Oak,Beech,Sycamore,Others
+Precision,0.93,0.75,0.92,0.89,0.89,0.94,0.95,0.63,0.51
+Recall,0.91,0.76,0.89,0.95,0.79,0.93,0.92,0.78,0.64
+F1,0.92,0.75,0.91,0.92,0.83,0.94,0.93,0.7,0.57

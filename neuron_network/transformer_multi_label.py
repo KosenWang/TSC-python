@@ -204,11 +204,10 @@ if __name__ == "__main__":
     save_hyperparameters()
     # loss and optimizer
     # ******************change weight here******************
-    num_positive = torch.tensor([28114, 19377, 8625, 6530, 2862, 19012, 2457], dtype=torch.float)
-    num_negative = torch.tensor([24362, 33099, 43851, 45946, 49614, 33464, 50019], dtype=torch.float)
-    pos_weight = num_positive / (num_positive + num_negative)
+    # num_positive = torch.tensor([28114, 19377, 8625, 6530, 2862, 19012, 2457], dtype=torch.float)
+    # num_negative = torch.tensor([24362, 33099, 43851, 45946, 49614, 33464, 50019], dtype=torch.float)
     # ******************************************************
-    criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight).to(device)
+    criterion = nn.BCEWithLogitsLoss().to(device)
     optimizer = optim.Adam(model.parameters(), LR)
     sigmoid = nn.Sigmoid().to(device)
     # evaluate terms

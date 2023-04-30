@@ -1,0 +1,15 @@
+{
+    "general hyperparameters": {
+        "batch size": 512,
+        "learning rate": 0.001,
+        "epoch": 50,
+        "seed": 8
+    },
+    "lstm hyperparameters": {
+        "number of bands": 10,
+        "embedding size": 128,
+        "hidden size": 64,
+        "number of layers": 3,
+        "number of classes": 7
+    }
+}
