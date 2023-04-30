@@ -9,7 +9,7 @@
         "number of bands": 10,
         "embedding size": 128,
         "hidden size": 64,
-        "number of layers": 2,
+        "number of layers": 3,
         "number of classes": 9
     }
 }
