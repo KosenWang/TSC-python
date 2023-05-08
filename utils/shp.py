@@ -11,6 +11,12 @@ def load_shp_file(shp_path:str) -> gpd.GeoDataFrame:
 
 # %%
 def export_shp_file(gdf:gpd.GeoDataFrame, shp_path:str) -> None:
+    # delete unused columns
+    cols = ['BST2_BA_1', 'BST2_BA_2', 'BST2_BA_3', 'BST2_BA_4', 'BST2_BA_5', 'BST2_BA_6', 'BST2_BA_7', 'BST2_BA_8', 
+        'BST2_BAA_1', 'BST2_BAA_2', 'BST2_BAA_3', 'BST2_BAA_4', 'BST2_BAA_5', 'BST2_BAA_6', 'BST2_BAA_7', 'BST2_BAA_8', 
+        'BST3_BA_1', 'BST3_BA_2', 'BST3_BA_3', 'BST3_BA_4', 'BST3_BA_5', 'BST3_BA_6', 'BST3_BA_7', 'BST3_BA_8', 
+        'BST3_BAA_1', 'BST3_BAA_2', 'BST3_BAA_3', 'BST3_BAA_4', 'BST3_BAA_5', 'BST3_BAA_6', 'BST3_BAA_7', 'BST3_BAA_8']
+    gdf = gdf.drop(columns=cols)
     gpd.GeoDataFrame.to_file(gdf, shp_path)
     print(f'export file {shp_path}')
 
@@ -71,6 +77,6 @@ def export_csv_reference(gdf:gpd.GeoDataFrame, ref_path:str) -> None:
         'BST3_BA_1', 'BST3_BA_2', 'BST3_BA_3', 'BST3_BA_4', 'BST3_BA_5', 'BST3_BA_6', 'BST3_BA_7', 'BST3_BA_8', 
         'BST3_BAA_1', 'BST3_BAA_2', 'BST3_BAA_3', 'BST3_BAA_4', 'BST3_BAA_5', 'BST3_BAA_6', 'BST3_BAA_7', 'BST3_BAA_8',
         'geometry']
-    gdf.drop(columns=cols, inplace=True)
+    gdf = gdf.drop(columns=cols)
     # export result as csv file
     csv.export(gdf, ref_path, False)
