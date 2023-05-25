@@ -210,7 +210,7 @@ def draw_symbol_map(gdf:gpd.GeoDataFrame, area:str, model:str) -> None:
     # plot color
     for name, group in gdf.groupby('sum'):
         if name == 7:
-            group.plot(ax=ax, color='#CCFFCC') # light green
+            group.plot(ax=ax, color='#ADD8E6') # light blue
         elif name == 6:
             group.plot(ax=ax, color='#FFFFCC') # light yellow
         else:
